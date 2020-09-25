@@ -100,19 +100,19 @@ file.close()
 ###############################################    show   ###############################################
 
 # 显示训练集和验证集的acc和loss曲线
-acc = history.history['sparse_categorical_accuracy']
-loss = history.history['loss']
+# acc = history.history['sparse_categorical_accuracy']
+# loss = history.history['loss']
 
-plt.subplot(1, 2, 1)
-plt.plot(acc, label='Training Accuracy')
-plt.title('Training Accuracy')
-plt.legend()
+# plt.subplot(1, 2, 1)
+# plt.plot(acc, label='Training Accuracy')
+# plt.title('Training Accuracy')
+# plt.legend()
 
-plt.subplot(1, 2, 2)
-plt.plot(loss, label='Training Loss')
-plt.title('Training Loss')
-plt.legend()
-plt.show()
+# plt.subplot(1, 2, 2)
+# plt.plot(loss, label='Training Loss')
+# plt.title('Training Loss')
+# plt.legend()
+# plt.show()
 
 ################# predict ##################
 

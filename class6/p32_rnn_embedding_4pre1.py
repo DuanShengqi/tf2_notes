@@ -116,14 +116,14 @@ plt.show()
 
 ################# predict ##################
 
-preNum = int(input("input the number of test alphabet:"))
-for i in range(preNum):
-    alphabet1 = input("input test alphabet:")
-    alphabet = [w_to_id[a] for a in alphabet1]
-    # 使alphabet符合Embedding输入要求：[送入样本数， 时间展开步数]。
-    # 此处验证效果送入了1个样本，送入样本数为1；输入4个字母出结果，循环核时间展开步数为4。
-    alphabet = np.reshape(alphabet, (1, 4))
-    result = model.predict([alphabet])
-    pred = tf.argmax(result, axis=1)
-    pred = int(pred)
-    tf.print(alphabet1 + '->' + input_word[pred])
+# preNum = int(input("input the number of test alphabet:"))
+# for i in range(preNum):
+#     alphabet1 = input("input test alphabet:")
+#     alphabet = [w_to_id[a] for a in alphabet1]
+#     # 使alphabet符合Embedding输入要求：[送入样本数， 时间展开步数]。
+#     # 此处验证效果送入了1个样本，送入样本数为1；输入4个字母出结果，循环核时间展开步数为4。
+#     alphabet = np.reshape(alphabet, (1, 4))
+#     result = model.predict([alphabet])
+#     pred = tf.argmax(result, axis=1)
+#     pred = int(pred)
+#     tf.print(alphabet1 + '->' + input_word[pred])

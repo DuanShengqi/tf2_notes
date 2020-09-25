@@ -10,6 +10,14 @@ w_to_id = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4,
            'k': 10, 'l': 11, 'm': 12, 'n': 13, 'o': 14,
            'p': 15, 'q': 16, 'r': 17, 's': 18, 't': 19,
            'u': 20, 'v': 21, 'w': 22, 'x': 23, 'y': 24, 'z': 25}  # 单词映射到数值id的词典
+# 自动生成上述字典
+# w_to_id ={}
+# i = -1
+# for w  in input_word:
+#     i += 1
+#     if w_to_id.get(w,0) == 0:
+#         w_to_id[w] = i
+
 
 training_set_scaled = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                        11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -33,11 +41,35 @@ tf.random.set_seed(7)
 x_train = np.reshape(x_train, (len(x_train), 4))
 y_train = np.array(y_train)
 
+
+
 model = tf.keras.Sequential([
     Embedding(26, 2),
     SimpleRNN(10),
     Dense(26, activation='softmax')
 ])
+
+"""
+关于前向计算与网络层数的一点理解：
+1.首先对于上述网络而言，它是由embedding编码的，所以我们不用自己对词向量进行编码，但是要注意的是训练样本数和按几次时间步展开，
+其实对于RNN而言，按时间步展开就是RNN的特点，并且是根据一次性输入多少个特征进行展开的
+2.对于网络结构而言，记忆体越多，记忆力越好，对于前向计算而言，以一个样本为例，该样本肯定有多个特征，例如"abcd"，然而"a"是由embedding编码的
+因此输入到RNN中其实是以这个作为一个输入向量的，计算过程是多个记忆体一起计算的，以一个矩阵的形式，包含了多个记忆体的计算过程。
+3.以本网络为例，参数个数计算如下：
+第一层网络：    26*2
+（embedding层根据数据个数，按指定维数表示）
+输入（1*2） --->  第二层网络：    2*10      +    10*10       +    1*10
+（Wxt矩阵是计算记忆体输出值的，由于输入两维的数据，有十个记忆体。因此 2*10）
+（Whh是按时间步展开的传递参数，记忆体输出值是1*10的，所以Whh是10*10，从而保证整个输出是1*10的）
+（最后加上偏执向，1*10）
+第三层网络：
+Dense层， 26*10 + 26
+"""
+
+model.summary()
+
+# while True :
+#     pass
 
 model.compile(optimizer=tf.keras.optimizers.Adam(0.01),
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
@@ -54,9 +86,9 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_save_path,
                                                  save_best_only=True,
                                                  monitor='loss')  # 由于fit没有给出测试集，不计算测试集准确率，根据loss，保存最优模型
 
-history = model.fit(x_train, y_train, batch_size=32, epochs=100, callbacks=[cp_callback])
+history = model.fit(x_train, y_train, batch_size=16, epochs=100, callbacks=[cp_callback])
 
-model.summary()
+
 
 file = open('./weights.txt', 'w')  # 参数提取
 for v in model.trainable_variables:

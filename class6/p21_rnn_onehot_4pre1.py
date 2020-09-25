@@ -24,6 +24,9 @@ np.random.seed(7)
 np.random.shuffle(y_train)
 tf.random.set_seed(7)
 
+# print(np.shape(y_train))
+
+
 # 使x_train符合SimpleRNN输入要求：[送入样本数， 循环核时间展开步数， 每个时间步输入特征个数]。
 # 此处整个数据集送入，送入样本数为len(x_train)；输入4个字母出结果，循环核时间展开步数为4; 表示为独热码有5个输入特征，每个时间步输入特征个数为5
 x_train = np.reshape(x_train, (len(x_train), 4, 5))
@@ -52,6 +55,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_save_path,
 history = model.fit(x_train, y_train, batch_size=32, epochs=100, callbacks=[cp_callback])
 
 model.summary()
+
 
 # print(model.trainable_variables)
 file = open('./weights.txt', 'w')  # 参数提取

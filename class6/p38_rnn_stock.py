@@ -55,7 +55,7 @@ model = tf.keras.Sequential([
     SimpleRNN(80, return_sequences=True),
     Dropout(0.2),
     SimpleRNN(100),
-    Dropout(0.2),
+    Dropout(0.3),
     Dense(1)
 ])
 

@@ -64,6 +64,8 @@ model = tf.keras.Sequential([
 （最后加上偏执向，1*10）
 第三层网络：
 Dense层， 26*10 + 26
+
+除了网络参数计算之外，注意RNN只有最后一层才是最后时间步输出ht,中间层网络RNN都是每个时间步都是输出ht.
 """
 
 model.summary()
